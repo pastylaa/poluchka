@@ -1,0 +1,769 @@
+/* ============================================================
+   ПОЛИЧКА — design tokens, v2: Frutiger Aero
+   Глянець, скло, аврори, м'ята й аква — оптимістична цифрова
+   естетика 2004-2013 (Windows Aero, iMac G3, ранній iPod).
+   Полиця тепер зі скла, речі — з глянцевого кольорового пластику.
+   ============================================================ */
+:root{
+  --bg-a:#eafcf6;
+  --bg-b:#dcf1fb;
+  --bg-c:#f3f9ec;
+
+  --glass:rgba(255,255,255,.5);
+  --glass-strong:rgba(255,255,255,.78);
+  --glass-border:rgba(255,255,255,.9);
+
+  --aqua:#2fc2c6;
+  --aqua-deep:#1c93a3;
+  --sky:#4a92cc;
+  --leaf:#57ab63;
+  --blossom:#ef9bb8;
+  --lilac:#8f8fe0;
+  --sun:#ffb648;
+
+  --ink:#1f3d45;
+  --ink-soft:#4d6d73;
+  --ink-faint:#7f9ba0;
+
+  --font-display:'Fredoka', sans-serif;
+  --font-body:'Quicksand', sans-serif;
+
+  --shadow-deep: 0 20px 40px rgba(30,90,110,.18);
+  --shadow-soft: 0 8px 20px rgba(30,90,110,.14);
+  --radius-md: 14px;
+  --radius-lg: 26px;
+
+  --ease-silk: cubic-bezier(.22,.61,.36,1);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 0%, rgba(143,143,224,.18), transparent 60%),
+    radial-gradient(ellipse 60% 45% at 100% 15%, rgba(239,155,184,.20), transparent 55%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(47,194,198,.16), transparent 60%),
+    linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 55%, var(--bg-c) 100%);
+  background-attachment:fixed;
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-weight:500;
+  overflow-x:hidden;
+  position:relative;
+}
+
+::selection{ background:var(--aqua); color:#fff; }
+
+:focus-visible{
+  outline:2px solid var(--aqua-deep);
+  outline-offset:3px;
+  border-radius:4px;
+}
+
+/* ============================================================
+   Ambient — drifting glass bubbles
+   ============================================================ */
+.stars{
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  overflow:hidden;
+}
+.star{
+  position:absolute;
+  bottom:-10%;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255,255,255,.95) 0%, rgba(255,255,255,.35) 22%, rgba(255,255,255,.05) 45%, transparent 60%),
+    radial-gradient(circle at 65% 70%, rgba(47,194,198,.12), transparent 60%);
+  box-shadow: inset 0 0 6px rgba(255,255,255,.6), 0 4px 10px rgba(30,90,110,.08);
+  opacity:.55;
+  animation:float-up linear infinite;
+}
+@keyframes float-up{
+  0%{ transform:translateY(0) translateX(0); opacity:0; }
+  8%{ opacity:.6; }
+  92%{ opacity:.5; }
+  100%{ transform:translateY(-115vh) translateX(var(--drift, 30px)); opacity:0; }
+}
+
+.grain{ display:none; }
+
+/* ============================================================
+   Hero — glass aurora orb
+   ============================================================ */
+.hero{
+  position:relative; z-index:2;
+  text-align:center;
+  padding:5rem 1.5rem 2.6rem;
+}
+.hero__orbit{
+  position:relative;
+  width:130px; height:130px;
+  margin:0 auto 1.2rem;
+}
+.moon{
+  display:none;
+}
+.hero__orbit::before{
+  /* the glossy aurora bubble itself */
+  content:"";
+  position:absolute; inset:6px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255,255,255,.95) 0%, rgba(255,255,255,.55) 10%, transparent 24%),
+    conic-gradient(from 200deg, var(--aqua), var(--sky), var(--lilac), var(--blossom), var(--sun), var(--leaf), var(--aqua));
+  box-shadow:
+    inset 0 -14px 24px rgba(255,255,255,.35),
+    inset 0 10px 18px rgba(20,60,70,.18),
+    0 18px 34px rgba(30,90,110,.28);
+  filter:saturate(1.15);
+  animation:bob 5.5s ease-in-out infinite;
+}
+.hero__orbit::after{
+  /* glassy highlight streak, like a soap bubble */
+  content:"";
+  position:absolute; top:12%; left:18%;
+  width:34%; height:20%;
+  border-radius:50%;
+  background:rgba(255,255,255,.85);
+  filter:blur(2px);
+  transform:rotate(-25deg);
+}
+@keyframes bob{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-8px); }
+}
+.orbit-dot{
+  position:absolute; top:50%; left:50%;
+  width:10px; height:10px; border-radius:50%;
+  background:radial-gradient(circle at 32% 28%, #fff, var(--aqua) 60%);
+  box-shadow:0 3px 8px rgba(30,90,110,.3);
+  animation:orbit 16s linear infinite;
+}
+.dot1{ animation-duration:13s; }
+.dot2{ animation-duration:19s; animation-direction:reverse; background:radial-gradient(circle at 32% 28%, #fff, var(--blossom) 60%); }
+.dot3{ animation-duration:23s; background:radial-gradient(circle at 32% 28%, #fff, var(--sun) 60%); width:7px; height:7px; }
+@keyframes orbit{
+  from{ transform:rotate(0deg) translateX(78px) rotate(0deg); }
+  to{ transform:rotate(360deg) translateX(78px) rotate(-360deg); }
+}
+
+.hero__eyebrow{
+  font-family:var(--font-body);
+  font-weight:600;
+  font-size:.74rem;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--aqua-deep);
+  margin:0 0 .5rem;
+}
+.hero__title{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:clamp(3.1rem, 8vw, 5.4rem);
+  margin:0;
+  letter-spacing:.01em;
+  background:linear-gradient(100deg, var(--sky) 0%, var(--aqua) 35%, var(--leaf) 60%, var(--blossom) 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  filter:drop-shadow(0 2px 0 rgba(255,255,255,.6));
+}
+.hero__tagline{
+  font-family:var(--font-body);
+  font-weight:500;
+  font-size:1.12rem;
+  color:var(--ink-soft);
+  margin:.8rem auto 0;
+  max-width:34ch;
+  line-height:1.5;
+}
+.br-mobile{ display:none; }
+
+/* ============================================================
+   Category tabs — glass pills
+   ============================================================ */
+.tabs{
+  position:relative; z-index:2;
+  display:flex;
+  justify-content:center;
+  gap:.6rem;
+  flex-wrap:wrap;
+  padding:0 1.2rem 2.8rem;
+}
+.tab{
+  display:inline-flex;
+  align-items:center;
+  gap:.55rem;
+  padding:.6rem 1.25rem;
+  border-radius:999px;
+  border:1px solid var(--glass-border);
+  background:var(--glass);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  color:var(--ink-soft);
+  font-family:var(--font-body);
+  font-weight:600;
+  font-size:.88rem;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(30,90,110,.08);
+  transition:all .35s var(--ease-silk);
+}
+.tab__icon{ width:22px; height:18px; flex:none; }
+.tab:hover{
+  color:var(--ink);
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-soft);
+}
+.tab.is-active{
+  background:linear-gradient(160deg, rgba(255,255,255,.9), rgba(255,255,255,.55));
+  border-color:#fff;
+  color:var(--aqua-deep);
+  box-shadow:0 8px 20px rgba(47,194,198,.28), inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+/* ============================================================
+   Shelves — frosted glass planks
+   ============================================================ */
+main{
+  position:relative; z-index:2;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 1.5rem 2rem;
+}
+.shelf-section{ display:none; margin-bottom:2.8rem; }
+.shelf-section.is-active{
+  display:block;
+  animation:riseIn .7s var(--ease-silk) both;
+}
+@keyframes riseIn{
+  from{ opacity:0; transform:translateY(18px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+.shelf-row{
+  display:flex;
+  align-items:flex-end;
+  gap:16px;
+  min-height:212px;
+  padding:1.2rem 1.4rem .6rem;
+  overflow-x:auto;
+  overflow-y:visible;
+  scrollbar-width:thin;
+  scrollbar-color:var(--aqua) transparent;
+}
+.shelf-row::-webkit-scrollbar{ height:6px; }
+.shelf-row::-webkit-scrollbar-thumb{ background:var(--aqua); border-radius:4px; opacity:.5; }
+
+.shelf-plank{
+  position:relative;
+  height:22px;
+  margin:0 .4rem;
+  border-radius:14px;
+  background:linear-gradient(180deg, rgba(255,255,255,.85) 0%, rgba(255,255,255,.4) 45%, rgba(180,220,230,.35) 100%);
+  border:1px solid rgba(255,255,255,.85);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  box-shadow:var(--shadow-soft), inset 0 1px 0 rgba(255,255,255,.9);
+}
+.shelf-plank__edge{
+  position:absolute; left:6%; right:6%; top:2px; height:3px;
+  background:rgba(255,255,255,.9);
+  border-radius:3px;
+  filter:blur(.3px);
+}
+
+/* empty state */
+.shelf-empty{
+  width:100%;
+  text-align:center;
+  padding:2.4rem 1rem;
+  color:var(--ink-faint);
+  font-family:var(--font-display);
+  font-weight:500;
+  font-size:1.15rem;
+  position:relative;
+}
+.shelf-empty span{ display:block; opacity:.85; }
+.mote{
+  position:absolute;
+  bottom:6px;
+  width:6px; height:6px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 25%, #fff, var(--aqua) 65%);
+  opacity:.7;
+  animation:rise 5s ease-in infinite;
+}
+@keyframes rise{
+  0%{ transform:translateY(0); opacity:0; }
+  15%{ opacity:.7; }
+  100%{ transform:translateY(-70px); opacity:0; }
+}
+
+/* ============================================================
+   Item: shared lift/hover behaviour
+   ============================================================ */
+.item{
+  position:relative;
+  flex:none;
+  cursor:pointer;
+  border:none; background:none; padding:0;
+  transition:transform .4s var(--ease-silk), filter .4s var(--ease-silk);
+  animation:settle .5s var(--ease-silk) both;
+}
+@keyframes settle{
+  from{ opacity:0; transform:translateY(14px) scale(.96); }
+  to{ opacity:1; transform:translateY(0) scale(1); }
+}
+.item:hover, .item:focus-visible{
+  transform:translateY(-10px) rotate(var(--tilt, -2deg));
+  filter:drop-shadow(0 14px 16px rgba(30,90,110,.28));
+  z-index:5;
+}
+
+/* ---------- Movies / series → glossy cassette ---------- */
+.item--cassette{ width:118px; height:76px; margin-bottom:6px; }
+.cassette{
+  width:100%; height:100%;
+  border-radius:10px;
+  background:
+    linear-gradient(155deg, rgba(255,255,255,.75), transparent 38%),
+    linear-gradient(200deg, color-mix(in srgb, var(--item-color) 92%, white 20%), color-mix(in srgb, var(--item-color) 78%, black 10%));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.5), var(--shadow-soft);
+  padding:8px 9px 6px;
+  display:flex; flex-direction:column; justify-content:space-between;
+  position:relative;
+  overflow:hidden;
+}
+.cassette::before{
+  content:"";
+  position:absolute; inset:4px 4px auto 4px; height:40%;
+  background:linear-gradient(180deg, rgba(255,255,255,.55), transparent);
+  border-radius:8px 8px 0 0;
+  pointer-events:none;
+}
+.cassette__window{
+  display:flex; justify-content:space-around; align-items:center;
+  background:rgba(255,255,255,.35);
+  border-radius:6px;
+  padding:6px 10px;
+  margin-top:8px;
+  position:relative;
+}
+.reel{
+  width:16px; height:16px; border-radius:50%;
+  border:2px dashed rgba(255,255,255,.85);
+  position:relative;
+}
+.reel::after{
+  content:""; position:absolute; inset:5px; border-radius:50%;
+  background:rgba(255,255,255,.85);
+}
+.item--cassette:hover .reel{ animation:spin 2.6s linear infinite; }
+.cassette__label{
+  background:rgba(255,255,255,.92);
+  border-radius:5px;
+  padding:3px 6px;
+  color:var(--ink);
+  position:relative;
+}
+.cassette__title{
+  display:block;
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:.72rem;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* ---------- Books ---------- */
+.item--book{ width:38px; height:var(--item-height, 176px); margin-bottom:6px; }
+.book{
+  width:100%; height:100%;
+  border-radius:6px 9px 9px 6px;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.55) 0 5px, transparent 5px 10px),
+    linear-gradient(200deg, color-mix(in srgb, var(--item-color) 95%, white 18%), color-mix(in srgb, var(--item-color) 75%, black 12%));
+  box-shadow: inset -2px 0 4px rgba(20,60,70,.14), inset 2px 0 0 rgba(255,255,255,.4), var(--shadow-soft);
+  display:flex; align-items:center; justify-content:center;
+  padding:10px 0;
+}
+.book__title{
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:.78rem;
+  letter-spacing:.02em;
+  color:#fff;
+  text-shadow:0 1px 2px rgba(20,60,70,.25);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-height:100%;
+}
+
+/* ---------- Music → vinyl sleeve on shelf ---------- */
+.item--vinyl{ width:104px; height:104px; margin-bottom:6px; }
+.sleeve{
+  width:100%; height:100%;
+  border-radius:8px;
+  background:
+    linear-gradient(150deg, rgba(255,255,255,.65), transparent 42%),
+    linear-gradient(200deg, color-mix(in srgb, var(--item-color) 90%, white 16%), color-mix(in srgb, var(--item-color) 72%, black 12%));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.5), var(--shadow-soft);
+  position:relative;
+  overflow:hidden;
+  display:flex; align-items:flex-end;
+  padding:8px;
+}
+.record-peek{
+  position:absolute;
+  top:8%; right:-18%;
+  width:88%; height:88%;
+  border-radius:50%;
+  background:
+    repeating-radial-gradient(circle at 50% 50%, #17262a 0 2px, #263c42 2px 4px);
+  box-shadow:0 6px 14px rgba(20,60,70,.35), inset 0 0 0 2px rgba(255,255,255,.25);
+  opacity:.95;
+}
+.record-peek::after{
+  content:"";
+  position:absolute; inset:38%;
+  border-radius:50%;
+  background:var(--item-color);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.5);
+}
+.vinyl__title{
+  position:relative; z-index:1;
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:.76rem;
+  color:#fff;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  max-width:100%;
+  text-shadow:0 1px 3px rgba(20,60,70,.4);
+}
+
+/* add-more ghost tile at end of row */
+.add-tile{
+  flex:none;
+  width:70px; height:104px;
+  border:1.5px dashed rgba(47,194,198,.45);
+  border-radius:12px;
+  background:var(--glass);
+  backdrop-filter:blur(6px);
+  color:var(--aqua-deep);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.6rem;
+  cursor:pointer;
+  transition:all .3s var(--ease-silk);
+  align-self:flex-end;
+  margin-bottom:6px;
+}
+.add-tile:hover{ border-color:var(--aqua); background:rgba(255,255,255,.7); transform:translateY(-4px); }
+
+/* ============================================================
+   Floating action button — glossy bubble
+   ============================================================ */
+.fab{
+  position:fixed; right:1.6rem; bottom:1.6rem; z-index:20;
+  width:60px; height:60px; border-radius:50%;
+  border:1px solid rgba(255,255,255,.8);
+  background:
+    radial-gradient(circle at 32% 26%, rgba(255,255,255,.95), transparent 32%),
+    linear-gradient(160deg, var(--aqua), var(--sky));
+  color:#fff;
+  box-shadow:var(--shadow-deep), inset 0 -6px 10px rgba(20,60,70,.18);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  transition:transform .35s var(--ease-silk), box-shadow .35s var(--ease-silk);
+}
+.fab:hover{ transform:translateY(-3px) rotate(90deg); box-shadow:0 22px 32px rgba(30,90,110,.32), inset 0 -6px 10px rgba(20,60,70,.18); }
+
+/* ============================================================
+   Modal — glass card
+   ============================================================ */
+.modal-overlay{
+  position:fixed; inset:0; z-index:50;
+  background:rgba(160,205,215,.45);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  display:none; align-items:center; justify-content:center;
+  padding:1.2rem;
+  animation:fadeIn .3s var(--ease-silk);
+}
+/* the [hidden] attribute alone can be silently overridden by any `display`
+   declared on the same element — so flex is only ever applied when the
+   attribute is actually absent, never unconditionally. */
+.modal-overlay:not([hidden]){ display:flex; }
+@keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+
+.modal-card{
+  position:relative;
+  width:min(760px, 100%);
+  max-height:88vh;
+  overflow-y:auto;
+  display:grid;
+  grid-template-columns:280px 1fr;
+  background:linear-gradient(165deg, rgba(255,255,255,.92), rgba(255,255,255,.75));
+  border:1px solid #fff;
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-deep), inset 0 1px 0 rgba(255,255,255,.9);
+  animation:cardIn .45s var(--ease-silk);
+}
+@keyframes cardIn{
+  from{ opacity:0; transform:scale(.92) translateY(16px); }
+  to{ opacity:1; transform:scale(1) translateY(0); }
+}
+.modal-close{
+  position:absolute; top:14px; right:14px; z-index:2;
+  width:34px; height:34px; border-radius:50%;
+  background:var(--glass-strong);
+  border:1px solid #fff;
+  color:var(--ink-soft);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  box-shadow:var(--shadow-soft);
+}
+.modal-close:hover{ color:var(--ink); }
+
+.modal-visual{
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(255,255,255,.9), transparent 55%),
+    linear-gradient(200deg, rgba(220,241,251,.9), rgba(234,252,246,.9));
+  display:flex; align-items:center; justify-content:center;
+  padding:2rem 1.4rem;
+  border-radius:var(--radius-lg) 0 0 var(--radius-lg);
+}
+
+/* -- cover frame (movies / books) -- */
+.cover-frame{
+  width:100%; max-width:220px; aspect-ratio:3/4;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 18px 30px rgba(30,90,110,.28), inset 0 0 0 5px rgba(255,255,255,.7);
+  position:relative;
+}
+.cover-frame img, .cover-frame .cover-fallback{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+.cover-fallback{
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-size:3rem; font-weight:600;
+  color:#fff; text-shadow:0 2px 6px rgba(20,60,70,.3);
+}
+
+/* -- turntable (music) -- glossy plastic player */
+.turntable{ width:100%; max-width:230px; position:relative; }
+.turntable__plate{
+  width:100%; aspect-ratio:1/1;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255,255,255,.9), transparent 30%),
+    radial-gradient(circle at 45% 40%, #eaf7fb, #c9e6ef 70%);
+  box-shadow:0 16px 26px rgba(30,90,110,.25), inset 0 0 0 4px rgba(255,255,255,.85);
+  display:flex; align-items:center; justify-content:center;
+  position:relative;
+}
+.record{
+  width:88%; height:88%; border-radius:50%;
+  background:
+    repeating-radial-gradient(circle, #1b2d32 0 2px, #2c454c 2px 4px);
+  box-shadow:0 6px 20px rgba(20,60,70,.4), inset 0 0 0 3px rgba(255,255,255,.15);
+  display:flex; align-items:center; justify-content:center;
+  position:relative;
+  animation:spin 2.6s linear infinite;
+  animation-play-state:paused;
+}
+.turntable.is-playing .record{ animation-play-state:running; }
+.record__label{
+  width:38%; height:38%; border-radius:50%;
+  background-size:cover; background-position:center;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.5), 0 2px 6px rgba(20,60,70,.3);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-weight:600; font-size:1rem;
+  color:#fff;
+}
+.turntable__arm{
+  position:absolute; top:-4%; right:2%;
+  width:38%; height:38%;
+  transform-origin:88% 12%;
+  transform:rotate(-28deg);
+  transition:transform .8s var(--ease-silk);
+  pointer-events:none;
+}
+.turntable.is-playing .turntable__arm{ transform:rotate(2deg); }
+.turntable__arm::before{
+  content:"";
+  position:absolute; top:8%; right:6%;
+  width:5px; height:78%;
+  background:linear-gradient(rgba(255,255,255,.95), var(--sky));
+  border-radius:3px;
+  box-shadow:0 2px 6px rgba(20,60,70,.25);
+}
+.turntable__arm::after{
+  content:"";
+  position:absolute; top:4%; right:2%;
+  width:16px; height:16px; border-radius:50%;
+  background:radial-gradient(circle at 32% 28%, #fff, var(--sky) 65%);
+  box-shadow:0 2px 4px rgba(20,60,70,.25);
+}
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+.turntable__caption{
+  text-align:center;
+  font-family:var(--font-display); font-weight:500;
+  color:var(--ink-faint);
+  font-size:.85rem; margin-top:1rem;
+}
+
+/* ============================================================
+   Modal form
+   ============================================================ */
+.modal-body{ padding:2rem 1.8rem 1.8rem; }
+.modal-heading{
+  font-family:var(--font-display);
+  font-weight:600; font-size:1.7rem;
+  margin:.2rem 0 1.3rem;
+  color:var(--ink);
+}
+.field{ display:block; margin-bottom:1rem; }
+.field--half{ flex:1; }
+.field-row{ display:flex; gap:1rem; }
+.field__label{
+  display:block;
+  font-size:.72rem; letter-spacing:.08em; text-transform:uppercase;
+  font-weight:700;
+  color:var(--aqua-deep); margin-bottom:.4rem;
+}
+.field__input{
+  width:100%;
+  background:rgba(255,255,255,.6);
+  border:1px solid rgba(74,146,204,.25);
+  border-radius:10px;
+  padding:.6rem .75rem;
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-weight:500;
+  font-size:.92rem;
+  transition:border-color .3s, box-shadow .3s;
+}
+.field__input:focus{ border-color:var(--aqua); outline:none; box-shadow:0 0 0 3px rgba(47,194,198,.18); }
+.field__textarea{ resize:vertical; min-height:80px; line-height:1.5; font-family:var(--font-body); font-size:1rem;}
+select.field__input{ appearance:none; cursor:pointer; }
+
+.swatches{ display:flex; gap:.45rem; flex-wrap:wrap; padding-top:.3rem; }
+.swatch{
+  width:26px; height:26px; border-radius:50%;
+  border:2px solid rgba(255,255,255,.9);
+  box-shadow:0 2px 6px rgba(30,90,110,.2), inset 0 3px 4px rgba(255,255,255,.5);
+  cursor:pointer;
+  transition:transform .25s var(--ease-silk);
+}
+.swatch:hover{ transform:scale(1.12); }
+.swatch.is-selected{ border-color:var(--ink); transform:scale(1.14); }
+
+.file-row{ display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; }
+.file-name{ font-size:.8rem; color:var(--ink-faint); }
+
+.modal-actions{
+  display:flex; justify-content:flex-end; gap:.7rem;
+  margin-top:1.4rem;
+}
+
+/* glossy Web-2.0 pill buttons — the signature Aero UI element */
+.btn{
+  position:relative;
+  font-family:var(--font-body);
+  font-weight:700;
+  font-size:.86rem;
+  padding:.65rem 1.3rem;
+  border-radius:999px;
+  cursor:pointer;
+  border:1px solid transparent;
+  transition:all .3s var(--ease-silk);
+  overflow:hidden;
+}
+.btn::after{
+  content:"";
+  position:absolute; left:6%; right:6%; top:8%; height:38%;
+  border-radius:999px;
+  background:linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,0));
+  pointer-events:none;
+}
+.btn--small{ padding:.5rem 1rem; font-size:.8rem; }
+.btn--primary{
+  background:linear-gradient(160deg, var(--aqua), var(--sky));
+  color:#fff;
+  box-shadow:0 8px 18px rgba(47,194,198,.35), inset 0 -3px 6px rgba(20,60,70,.15);
+}
+.btn--primary:hover{ transform:translateY(-2px); box-shadow:0 12px 22px rgba(47,194,198,.42), inset 0 -3px 6px rgba(20,60,70,.15); }
+.btn--ghost{
+  background:var(--glass);
+  border-color:rgba(239,155,184,.6);
+  color:#c46d8b;
+}
+.btn--ghost:hover{ background:rgba(255,255,255,.75); }
+.file-btn{ display:inline-flex; align-items:center; }
+
+/* ============================================================
+   Toast
+   ============================================================ */
+.toast{
+  position:fixed; left:50%; bottom:1.8rem; z-index:60;
+  transform:translate(-50%, 20px);
+  background:var(--glass-strong);
+  backdrop-filter:blur(10px);
+  border:1px solid #fff;
+  color:var(--ink);
+  padding:.65rem 1.3rem;
+  border-radius:999px;
+  font-weight:600;
+  font-size:.85rem;
+  opacity:0;
+  pointer-events:none;
+  transition:all .4s var(--ease-silk);
+  box-shadow:var(--shadow-soft);
+}
+.toast.is-visible{ opacity:1; transform:translate(-50%, 0); }
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.footer{
+  position:relative; z-index:2;
+  text-align:center;
+  padding:2rem 1rem 3rem;
+  color:var(--ink-faint);
+  font-size:.78rem;
+  font-weight:600;
+  letter-spacing:.03em;
+  opacity:.75;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width:640px){
+  .br-mobile{ display:inline; }
+  .hero{ padding:4rem 1.2rem 2rem; }
+  .modal-card{ grid-template-columns:1fr; max-height:92vh; }
+  .modal-visual{ border-radius:var(--radius-lg) var(--radius-lg) 0 0; padding:1.6rem; }
+  .cover-frame, .turntable{ max-width:170px; }
+  .fab{ right:1.1rem; bottom:1.1rem; }
+}
+
+/* ============================================================
+   Reduced motion
+   ============================================================ */
+@media (prefers-reduced-motion:reduce){
+  *{ animation-duration:.001s !important; animation-iteration-count:1 !important; transition-duration:.001s !important; }
+  .record{ animation:none; }
+  .orbit-dot{ animation:none; }
+  .star{ animation:none; opacity:0; }
+}
